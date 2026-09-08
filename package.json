@@ -1,0 +1,15 @@
+{
+  "name": "phelixestinvil-com",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Professional resume and technical portfolio for Phelix Estinvil.",
+  "scripts": {
+    "check": "node scripts/check.mjs && node --check src/assets/site.js",
+    "build": "node scripts/build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
+

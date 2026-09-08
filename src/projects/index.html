@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Selected embedded-systems, fabrication, software, and infrastructure projects by Phelix Estinvil.">
+    <meta name="theme-color" content="#172232">
+    <link rel="canonical" href="https://phelixestinvil.com/projects/">
+    <link rel="stylesheet" href="../assets/styles.css">
+    <title>Selected Projects | Phelix Estinvil</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="../" aria-label="Phelix Estinvil home">Phelix Estinvil</a>
+        <button class="menu-button" type="button" aria-label="Toggle navigation" aria-expanded="false" data-menu-button>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6.5h18M3 12h18M3 17.5h18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+        </button>
+        <nav class="site-nav" aria-label="Primary navigation" data-navigation>
+          <a href="../#overview">Overview</a>
+          <a href="../#experience">Experience</a>
+          <a href="./" aria-current="page">Projects</a>
+          <a href="../#skills">Skills</a>
+          <a href="../#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <header class="page-intro shell">
+        <h1>Selected Projects</h1>
+        <p>Practical systems built at the intersection of mechanics, electronics, software, fabrication, and live-event operations.</p>
+      </header>
+
+      <div class="shell">
+        <article class="case-study" id="dj-smart-hub">
+          <div>
+            <h2>M5Stack DJ Smart Hub</h2>
+            <p class="project-status">Active development</p>
+          </div>
+          <div>
+            <h3>Problem</h3>
+            <p>Create a compact, responsive control system that turns live audio analysis into dependable lighting control while keeping performance controls immediate.</p>
+            <h3>Approach</h3>
+            <p>A two-device architecture separates line-in audio analysis, BPM and scene logic from physical DMX output. Low-latency wireless transport keeps both control surfaces synchronized.</p>
+            <p class="tools-line"><strong>Tools:</strong> M5Stack CoreS3, ESP32-S3, ESP-NOW, FFT analysis, LVGL, DMX512</p>
+          </div>
+        </article>
+
+        <article class="case-study" id="smart-light-retrofit">
+          <div>
+            <h2>ESP32 Smart-Light Retrofit</h2>
+            <p class="project-status">Active development</p>
+          </div>
+          <div>
+            <h3>Problem</h3>
+            <p>Extend the control and serviceability of rechargeable RGB uplights without discarding working power and LED hardware.</p>
+            <h3>Approach</h3>
+            <p>An ESP32-S3 retrofit adds internal DMX injection, an external wired fallback, ESP-NOW control, fixture profiles, and distinct normal and emergency blackout states.</p>
+            <p class="tools-line"><strong>Tools:</strong> ESP32-S3, ESP-NOW, DMX512, RS-485, embedded firmware, fixture profiles</p>
+          </div>
+        </article>
+
+        <article class="case-study" id="phelixslicer">
+          <div>
+            <h2>PhelixSlicer</h2>
+            <p class="project-status">Foundation complete</p>
+          </div>
+          <div>
+            <h3>Problem</h3>
+            <p>Improve dependable Flashforge Adventurer 3 Pro support in an Orca-based slicing workflow and remove repeatable Windows build barriers.</p>
+            <h3>Approach</h3>
+            <p>The project establishes printer and loader profiles, portable build tooling, dependency corrections, and production profile validation on a controlled fork.</p>
+            <p class="tools-line"><strong>Tools:</strong> C++, CMake, Git, Windows build tooling, profile validation, 3D-print workflows</p>
+          </div>
+        </article>
+
+        <article class="case-study" id="server-systems">
+          <div>
+            <h2>Computer &amp; Server Systems</h2>
+            <p class="project-status">Planned deployment</p>
+          </div>
+          <div>
+            <h3>Problem</h3>
+            <p>Turn existing workstation hardware into a dependable headless environment for storage, development, and compute workloads.</p>
+            <h3>Approach</h3>
+            <p>The deployment plan prioritizes unattended Ubuntu Server operation, SSH-first administration, organized storage, and staged service validation.</p>
+            <p class="tools-line"><strong>Tools:</strong> Ubuntu Server, Linux, SSH, networking, storage planning, GPU compute</p>
+          </div>
+        </article>
+      </div>
+    </main>
+
+    <footer class="contact-band" id="contact">
+      <div class="shell contact-inner">
+        <div>
+          <h2 class="contact-title">Let’s Connect</h2>
+          <p class="contact-copy">For professional opportunities, technical collaboration, or a closer look at current work.</p>
+        </div>
+        <div class="contact-links">
+          <a class="button button-primary" href="https://djphelix.com/contact/">Email Phelix</a>
+          <a class="button" href="https://github.com/EazyPhe" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a class="button" href="../resume/">Résumé</a>
+          <a class="button" href="../">Overview</a>
+        </div>
+      </div>
+      <div class="shell"><p class="footer-note">© 2026 Phelix Estinvil. Cape Cod, Massachusetts.</p></div>
+    </footer>
+
+    <script src="../assets/site.js" defer></script>
+  </body>
+</html>
+
