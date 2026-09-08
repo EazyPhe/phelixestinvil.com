@@ -258,7 +258,12 @@ svg {
   font-size: clamp(3.2rem, 6vw, 6.2rem);
 }
 
-.summary-grid,
+.summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
 .experience-grid,
 .resume-grid {
   display: grid;
@@ -351,10 +356,24 @@ svg {
   text-transform: uppercase;
 }
 
-.role-copy {
+.role-copy,
+.role-duties {
   max-width: 45rem;
   margin: 0.75rem 0 0;
   color: #465264;
+}
+
+.role-duties {
+  padding-left: 1.3rem;
+  list-style: disc;
+}
+
+.role-duties li + li {
+  margin-top: 0.55rem;
+}
+
+.role-duties li::marker {
+  color: var(--copper-dark);
 }
 
 .capability-panel {
@@ -700,7 +719,6 @@ svg {
     bottom: 0.45rem;
   }
 
-  .summary-grid,
   .case-study,
   .resume-grid,
   .contact-inner {
@@ -794,4 +812,3 @@ svg {
     position: static;
   }
 }
-
