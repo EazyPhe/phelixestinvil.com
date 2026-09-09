@@ -3,8 +3,11 @@
   --ink: #101318;
   --navy: #172232;
   --slate: #65707d;
-  --line: #c8cdd3;
-  --soft-line: #e8eaed;
+  --line: #d7dde4;
+  --soft-line: #e9edf1;
+  --surface: #f7f8fa;
+  --radius: 0.625rem;
+  --control-radius: 0.375rem;
   --copper: #a65f3b;
   --copper-dark: #874528;
   --display: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
@@ -77,6 +80,7 @@ svg {
   border-bottom: 1px solid var(--line);
   background: rgb(255 255 255 / 96%);
   backdrop-filter: blur(0.75rem);
+  box-shadow: 0 2px 12px rgb(23 34 50 / 3%);
 }
 
 .header-inner {
@@ -138,8 +142,9 @@ svg {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--line);
+  border-radius: var(--control-radius);
   color: var(--navy);
-  background: var(--white);
+  background: var(--surface);
 }
 
 .menu-button svg {
@@ -147,7 +152,7 @@ svg {
 }
 
 .hero {
-  padding-block: clamp(4.5rem, 9vw, 9rem) clamp(4rem, 7vw, 7rem);
+  padding-block: clamp(3rem, 6vw, 6rem) 0;
 }
 
 .hero-layout {
@@ -159,7 +164,11 @@ svg {
 
 .hero-portrait {
   margin: 0;
-  border-bottom: 4px solid var(--copper);
+  padding: 0.375rem;
+  border: 1px solid #d9c5b8;
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 12px 32px rgb(23 34 50 / 8%);
 }
 
 .hero-portrait img {
@@ -169,6 +178,7 @@ svg {
   aspect-ratio: 4 / 5;
   object-fit: cover;
   object-position: center 35%;
+  border-radius: calc(var(--radius) - 0.375rem);
 }
 
 .hero-rail {
@@ -215,10 +225,11 @@ svg {
   align-items: center;
   justify-content: center;
   padding: 0.85rem 2rem;
-  border: 1px solid var(--navy);
-  border-radius: 1px;
+  border: 1px solid #aab4c0;
+  border-radius: var(--control-radius);
   color: var(--navy);
   background: transparent;
+  font-family: var(--sans);
   font-size: 1rem;
   font-weight: 670;
   line-height: 1.2;
@@ -263,13 +274,13 @@ svg {
 }
 
 .hero-rule {
-  margin-top: clamp(4rem, 8vw, 7rem);
+  margin: clamp(2.5rem, 5vw, 4rem) 0 0;
   border: 0;
   border-top: 1px solid var(--line);
 }
 
 .section {
-  padding-block: clamp(4.5rem, 8vw, 8rem);
+  padding-block: clamp(3rem, 5.5vw, 5.5rem);
 }
 
 .section + .section {
@@ -277,13 +288,24 @@ svg {
 }
 
 .section-title {
-  font-size: clamp(3.2rem, 6vw, 6.2rem);
+  font-size: clamp(2.5rem, 4.4vw, 4.5rem);
+  line-height: 1.04;
+}
+
+.section-title::after,
+.resume-section h2::after {
+  display: block;
+  width: 2.25rem;
+  height: 2px;
+  margin-top: 1.1rem;
+  background: var(--copper);
+  content: "";
 }
 
 .summary-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  gap: 1.5rem;
 }
 
 .experience-grid,
@@ -299,15 +321,15 @@ svg {
   margin: 0;
   color: #253044;
   font-family: var(--display);
-  font-size: clamp(1.65rem, 3vw, 2.65rem);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
   letter-spacing: -0.02em;
-  line-height: 1.32;
+  line-height: 1.55;
 }
 
 .experience-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.78fr);
-  gap: clamp(4rem, 9vw, 10rem);
+  gap: clamp(2rem, 5vw, 5rem);
   align-items: start;
 }
 
@@ -321,50 +343,29 @@ svg {
 }
 
 .timeline {
-  position: relative;
-  margin-top: 2.4rem;
-  padding-left: 3.75rem;
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
 }
 
-.timeline::before {
-  position: absolute;
-  top: 0.6rem;
-  bottom: 0.6rem;
-  left: 1.15rem;
-  width: 2px;
-  background: var(--copper);
-  content: "";
+.timeline-item,
+#resume-experience .resume-entry {
+  min-width: 0;
+  padding: clamp(1rem, 2vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
 }
 
-.timeline-item {
-  position: relative;
-  padding: 0 0 2.5rem;
-}
-
-.timeline-item + .timeline-item {
-  padding-top: 2.2rem;
-  border-top: 1px solid var(--line);
-}
-
-.timeline-item::before {
-  position: absolute;
-  top: 0.55rem;
-  left: -3.15rem;
-  width: 0.8rem;
-  height: 0.8rem;
-  background: var(--copper);
-  content: "";
-}
-
-.timeline-item + .timeline-item::before {
-  top: 2.8rem;
+#resume-experience .resume-entry + .resume-entry {
+  margin-top: 1.25rem;
 }
 
 .role-title {
   margin: 0;
   color: var(--ink);
   font-size: clamp(1.35rem, 2vw, 1.9rem);
-  font-weight: 520;
+  font-weight: 600;
   line-height: 1.25;
 }
 
@@ -381,7 +382,7 @@ svg {
 .role-copy,
 .role-duties {
   max-width: 45rem;
-  margin: 0.75rem 0 0;
+  margin: 1.25rem 0 0;
   color: #465264;
 }
 
@@ -401,12 +402,12 @@ svg {
 .duties-toggle {
   display: none;
   min-height: 2.75rem;
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   padding: 0.65rem 0.9rem;
   border: 1px solid var(--line);
-  border-radius: 2px;
+  border-radius: var(--control-radius);
   color: var(--copper-dark);
-  background: var(--white);
+  background: var(--surface);
   font: inherit;
   font-weight: 650;
   text-align: left;
@@ -419,11 +420,14 @@ svg {
 }
 
 .capability-panel {
-  padding-top: 0.2rem;
+  padding: clamp(1.25rem, 2.5vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
 
 .capability-panel .section-title {
-  font-size: clamp(2.8rem, 5vw, 5rem);
+  font-size: clamp(2rem, 3.3vw, 3rem);
 }
 
 .capability-list {
@@ -432,8 +436,8 @@ svg {
 
 .capability-list li {
   display: grid;
-  grid-template-columns: 3.3rem 1fr;
-  gap: 1.1rem;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.85rem;
   align-items: center;
   margin-block: 0.95rem;
   color: #222b38;
@@ -448,7 +452,12 @@ svg {
 }
 
 .project-list {
-  margin-top: 2.7rem;
+  margin-top: 2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.project-list li + li {
   border-top: 1px solid var(--line);
 }
 
@@ -457,13 +466,31 @@ svg {
   min-height: 5.8rem;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  border-bottom: 1px solid var(--line);
+  gap: 1.5rem;
+  padding: 1rem 1.5rem;
   text-decoration: none;
+  transition: background 160ms ease;
+}
+
+.project-list li:first-child .project-link {
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.project-list li:last-child .project-link {
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.project-link:hover,
+.project-link:focus-visible {
+  background: var(--surface);
+}
+
+.project-link:focus-visible {
+  outline-offset: -4px;
 }
 
 .project-link span {
-  font-size: clamp(1.45rem, 3vw, 2.55rem);
+  font-size: clamp(1.35rem, 2.2vw, 2rem);
   font-weight: 520;
   letter-spacing: -0.025em;
 }
@@ -481,14 +508,13 @@ svg {
 }
 
 .education-block {
-  margin-top: clamp(3.7rem, 7vw, 6.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
   padding-block: 2.5rem;
-  border-top: 1px solid var(--copper);
-  border-bottom: 1px solid var(--copper);
+  border-top: 1px solid var(--line);
 }
 
 .education-block .section-title {
-  font-size: clamp(3rem, 5vw, 5rem);
+  font-size: clamp(2.5rem, 4vw, 4rem);
 }
 
 .education-copy {
@@ -499,6 +525,7 @@ svg {
 }
 
 .contact-band {
+  border-top: 3px solid var(--copper);
   color: var(--white);
   background: var(--navy);
 }
@@ -564,13 +591,14 @@ svg {
 }
 
 .page-intro {
-  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  padding-block: clamp(3rem, 5.5vw, 5rem);
   border-bottom: 1px solid var(--line);
 }
 
 .page-intro h1 {
   max-width: 72rem;
-  font-size: clamp(4rem, 8vw, 7rem);
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 1.04;
 }
 
 .page-intro p {
@@ -583,8 +611,8 @@ svg {
 .case-study {
   display: grid;
   grid-template-columns: minmax(13rem, 0.7fr) minmax(0, 1.5fr);
-  gap: clamp(2rem, 7vw, 7rem);
-  padding-block: clamp(4rem, 7vw, 6.5rem);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(3rem, 5vw, 4.5rem);
   border-bottom: 1px solid var(--line);
 }
 
@@ -592,9 +620,9 @@ svg {
 .resume-section h2 {
   margin: 0;
   font-family: var(--display);
-  font-size: clamp(2.25rem, 4.5vw, 4.1rem);
+  font-size: clamp(2.25rem, 3.2vw, 3.2rem);
   letter-spacing: -0.045em;
-  line-height: 1;
+  line-height: 1.1;
 }
 
 .case-study h3 {
@@ -621,6 +649,17 @@ svg {
   font-size: 0.94rem;
 }
 
+.case-study .tools-line {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--soft-line);
+}
+
+.case-study .project-status {
+  margin-top: 1rem;
+  color: var(--copper-dark);
+}
+
 .resume-actions {
   display: flex;
   flex-wrap: wrap;
@@ -642,6 +681,11 @@ svg {
 .resume-sidebar {
   position: sticky;
   top: 7.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--copper);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
 
 .resume-sidebar h2 {
@@ -683,6 +727,12 @@ svg {
 .resume-entry p {
   margin: 0.7rem 0 0;
   color: #435064;
+}
+
+#resume-experience .resume-entry > p {
+  color: var(--copper-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
 }
 
 .resume-list {
@@ -737,14 +787,15 @@ svg {
 
   .site-nav {
     position: absolute;
-    top: calc(100% + 1px);
-    right: 0;
-    left: 0;
+    top: calc(100% + 0.5rem);
+    right: var(--gutter);
+    left: var(--gutter);
     display: none;
     align-items: stretch;
     gap: 0;
-    padding: 0.5rem var(--gutter) 1rem;
-    border-bottom: 1px solid var(--line);
+    padding: 0.35rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
     background: var(--white);
     box-shadow: 0 1rem 2rem rgb(17 24 39 / 8%);
   }
@@ -756,6 +807,10 @@ svg {
   .site-nav a {
     padding-block: 0.85rem;
     border-bottom: 1px solid var(--soft-line);
+  }
+
+  .site-nav a:last-child {
+    border-bottom: 0;
   }
 
   .site-nav a::after {
@@ -867,24 +922,20 @@ svg {
 
   .timeline {
     margin-top: 1.75rem;
-    padding-left: 0;
+    gap: 1rem;
   }
 
-  .timeline::before,
-  .timeline-item::before {
-    display: none;
+  .timeline-item,
+  #resume-experience .resume-entry {
+    padding: 1rem;
   }
 
-  .timeline-item {
-    padding-bottom: 1.75rem;
+  .capability-panel {
+    padding: 1.25rem;
   }
 
-  .timeline-item + .timeline-item {
-    padding-top: 1.75rem;
-  }
-
-  .timeline-item:last-child {
-    padding-bottom: 0;
+  .capability-panel .section-title {
+    font-size: 2rem;
   }
 
   .role-title,
@@ -927,7 +978,7 @@ svg {
   .project-link {
     min-height: 4.5rem;
     gap: 0.8rem;
-    padding-block: 1rem;
+    padding: 1rem;
   }
 
   .project-link span {
@@ -964,8 +1015,7 @@ svg {
   }
 
   .resume-sidebar {
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--line);
+    padding: 1.25rem;
   }
 
   .resume-section {
@@ -990,7 +1040,10 @@ svg {
 
   .duties-toggle {
     display: inline-flex;
+    width: 100%;
     align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
   }
 }
 
@@ -1033,5 +1086,22 @@ svg {
 
   .resume-sidebar {
     position: static;
+  }
+
+  .timeline-item,
+  #resume-experience .resume-entry,
+  .capability-panel,
+  .resume-sidebar,
+  .hero-portrait {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .section-title::after,
+  .resume-section h2::after {
+    display: none;
   }
 }
