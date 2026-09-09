@@ -349,7 +349,7 @@ svg {
 }
 
 .timeline-item,
-#resume-experience .resume-entry {
+.resume-experience .resume-entry {
   min-width: 0;
   padding: clamp(1rem, 2vw, 1.75rem);
   border: 1px solid var(--line);
@@ -357,7 +357,7 @@ svg {
   background: var(--white);
 }
 
-#resume-experience .resume-entry + .resume-entry {
+.resume-experience .resume-entry + .resume-entry {
   margin-top: 1.25rem;
 }
 
@@ -729,7 +729,7 @@ svg {
   color: #435064;
 }
 
-#resume-experience .resume-entry > p {
+.resume-experience .resume-entry > p {
   color: var(--copper-dark);
   font-size: 0.9rem;
   font-weight: 600;
@@ -926,7 +926,7 @@ svg {
   }
 
   .timeline-item,
-  #resume-experience .resume-entry {
+  .resume-experience .resume-entry {
     padding: 1rem;
   }
 
@@ -1089,7 +1089,7 @@ svg {
   }
 
   .timeline-item,
-  #resume-experience .resume-entry,
+  .resume-experience .resume-entry,
   .capability-panel,
   .resume-sidebar,
   .hero-portrait {
