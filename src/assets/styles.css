@@ -779,8 +779,8 @@ svg {
 
   .hero-portrait {
     grid-row: 1;
-    width: 8rem;
-    margin-left: calc(clamp(1.4rem, 4vw, 4.2rem) + 4px);
+    width: min(72vw, 17rem, 100%);
+    margin-inline: auto;
   }
 }
 
@@ -806,11 +806,6 @@ svg {
   .hero-rail {
     padding-left: 0;
     border-left: 0;
-  }
-
-  .hero-portrait {
-    width: 7rem;
-    margin-left: 0;
   }
 
   .hero-copy {
