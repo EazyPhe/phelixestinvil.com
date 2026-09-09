@@ -150,6 +150,27 @@ svg {
   padding-block: clamp(4.5rem, 9vw, 9rem) clamp(4rem, 7vw, 7rem);
 }
 
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(13rem, 23%);
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.hero-portrait {
+  margin: 0;
+  border-bottom: 4px solid var(--copper);
+}
+
+.hero-portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center 35%;
+}
+
 .hero-rail {
   max-width: 82rem;
   padding-left: clamp(1.4rem, 4vw, 4.2rem);
@@ -169,7 +190,8 @@ svg {
 
 .hero h1 {
   max-width: 78rem;
-  font-size: clamp(3.25rem, 7.7vw, 7.4rem);
+  font-size: clamp(3.25rem, 5.6vw, 6rem);
+  overflow-wrap: anywhere;
 }
 
 .hero-copy {
@@ -374,6 +396,26 @@ svg {
 
 .role-duties li::marker {
   color: var(--copper-dark);
+}
+
+.duties-toggle {
+  display: none;
+  min-height: 2.75rem;
+  margin-top: 1rem;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--copper-dark);
+  background: var(--white);
+  font: inherit;
+  font-weight: 650;
+  text-align: left;
+  cursor: pointer;
+}
+
+.duties-toggle:hover {
+  border-color: var(--copper);
+  background: #faf7f5;
 }
 
 .capability-panel {
@@ -700,6 +742,7 @@ svg {
     left: 0;
     display: none;
     align-items: stretch;
+    gap: 0;
     padding: 0.5rem var(--gutter) 1rem;
     border-bottom: 1px solid var(--line);
     background: var(--white);
@@ -728,46 +771,231 @@ svg {
   .resume-sidebar {
     position: static;
   }
+
+  .hero-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .hero-portrait {
+    grid-row: 1;
+    width: 8rem;
+    margin-left: calc(clamp(1.4rem, 4vw, 4.2rem) + 4px);
+  }
 }
 
 @media (max-width: 38rem) {
+  html {
+    scroll-padding-top: 5rem;
+  }
+
+  .header-inner {
+    min-height: 4rem;
+    gap: 1rem;
+  }
+
+  .hero {
+    padding-block: 2rem 0;
+  }
+
   .hero h1 {
-    font-size: clamp(3rem, 14vw, 4.4rem);
+    font-size: clamp(2.1rem, 8.8vw, 3.1rem);
+    line-height: 1.06;
   }
 
   .hero-rail {
-    padding-left: 1.25rem;
-    border-left-width: 3px;
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .hero-portrait {
+    width: 7rem;
+    margin-left: 0;
+  }
+
+  .hero-copy {
+    margin-top: 1.25rem;
+    font-size: 1.08rem;
+    line-height: 1.6;
+  }
+
+  .hero-rule {
+    margin: 2rem 0 0;
+  }
+
+  .section,
+  .page-intro,
+  .resume-grid,
+  .case-study {
+    padding-block: 2.5rem;
+  }
+
+  .section-title,
+  .capability-panel .section-title,
+  .education-block .section-title,
+  .page-intro h1,
+  .contact-title {
+    font-size: clamp(2.1rem, 8.5vw, 2.75rem);
+    line-height: 1.08;
+  }
+
+  .summary-grid {
+    gap: 1.25rem;
+  }
+
+  .summary-copy {
+    font-size: 1.25rem;
+    line-height: 1.55;
+  }
+
+  .experience-layout {
+    gap: 2.5rem;
   }
 
   .button-row,
   .resume-actions {
     display: grid;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
   }
 
   .button {
     width: 100%;
+    min-height: 3.15rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .location {
+    margin-top: 1rem;
+    font-size: 0.95rem;
   }
 
   .timeline {
-    padding-left: 2.8rem;
+    margin-top: 1.75rem;
+    padding-left: 0;
   }
 
-  .timeline::before {
-    left: 0.65rem;
-  }
-
+  .timeline::before,
   .timeline-item::before {
-    left: -2.55rem;
+    display: none;
+  }
+
+  .timeline-item {
+    padding-bottom: 1.75rem;
+  }
+
+  .timeline-item + .timeline-item {
+    padding-top: 1.75rem;
+  }
+
+  .timeline-item:last-child {
+    padding-bottom: 0;
+  }
+
+  .role-title,
+  .resume-entry h3 {
+    font-size: 1.25rem;
+    line-height: 1.35;
+  }
+
+  .role-meta {
+    font-size: 0.78rem;
+    letter-spacing: 0.025em;
+    line-height: 1.6;
+  }
+
+  .role-duties {
+    margin-top: 1rem;
+    padding-left: 1.1rem;
+  }
+
+  .role-duties li + li {
+    margin-top: 1rem;
+  }
+
+  .role-duties strong {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: var(--navy);
+  }
+
+  .capability-list,
+  .project-list {
+    margin-top: 1.5rem;
+  }
+
+  .capability-list li {
+    grid-template-columns: 1.25rem 1fr;
+    gap: 0.75rem;
   }
 
   .project-link {
-    min-height: 5rem;
+    min-height: 4.5rem;
+    gap: 0.8rem;
+    padding-block: 1rem;
+  }
+
+  .project-link span {
+    font-size: 1.25rem;
+  }
+
+  .project-link svg {
+    width: 1.4rem;
+  }
+
+  .education-block {
+    margin-top: 2.5rem;
+    padding-block: 1.75rem;
+  }
+
+  .education-copy {
+    margin-top: 1rem;
+    font-size: 1.15rem;
+  }
+
+  .contact-inner {
+    padding-block: 2.5rem;
+    gap: 1.5rem;
   }
 
   .contact-links,
   .resume-list {
     grid-template-columns: 1fr;
+  }
+
+  .page-intro p {
+    margin-top: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .resume-sidebar {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .resume-section {
+    padding-bottom: 2rem;
+  }
+
+  .resume-section + .resume-section {
+    padding-top: 2rem;
+  }
+
+  .resume-section h2,
+  .case-study h2 {
+    font-size: 2rem;
+    line-height: 1.1;
+  }
+}
+
+@media screen and (max-width: 38rem) {
+  .role-duties[data-collapsible][data-expanded="false"] > li:nth-child(n + 3) {
+    display: none;
+  }
+
+  .duties-toggle {
+    display: inline-flex;
+    align-items: center;
   }
 }
 
