@@ -1,222 +1,268 @@
-"""Render the professional resume PDF from the published experience copy.
+"""Build a selectable-text technical resume from src/resume/index.html.
 
-Requires ReportLab. Run: python scripts/build-resume.py
-The source portrait is clipped in the PDF; its original pixels are unchanged.
+Requires ReportLab: python scripts/build-resume.py
+All copy comes from semantic HTML sections, not fixed role or bullet counts.
+ReportLab's bundled Vera fonts make the script portable across operating systems.
+Add data-pdf-page-start to a resume section to start it on a new PDF page.
 """
 
-from html import unescape, escape
+from dataclasses import dataclass, field
+from html import escape
+from html.parser import HTMLParser
 from pathlib import Path
 import re
 
+import reportlab
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_LEFT
+from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Paragraph
+from reportlab.platypus import (
+    HRFlowable, KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE = ROOT / "src/resume/index.html"
 OUTPUT = ROOT / "src/assets/Phelix-Estinvil-Resume.pdf"
-FONT_DIR = Path("/usr/share/fonts/truetype/dejavu")
-for name, filename in [("ResumeSans", "DejaVuSans.ttf"),
-                       ("ResumeSans-Bold", "DejaVuSans-Bold.ttf"),
-                       ("ResumeSerif", "DejaVuSerif.ttf")]:
-    pdfmetrics.registerFont(TTFont(name, str(FONT_DIR / filename)))
-pdfmetrics.registerFontFamily("ResumeSans", normal="ResumeSans", bold="ResumeSans-Bold")
-for name in ["NimbusSans-Regular", "NimbusSans-Bold"]:
-    face = pdfmetrics.EmbeddedType1Face(
-        f"/usr/share/fonts/type1/urw-base35/{name}.afm",
-        f"/usr/share/fonts/X11/Type1/{name}.pfb",
-    )
-    pdfmetrics.registerTypeFace(face)
-    pdfmetrics.registerFont(pdfmetrics.Font(name, face.name, "WinAnsiEncoding"))
-pdfmetrics.registerFontFamily("NimbusSans-Regular", normal="NimbusSans-Regular", bold="NimbusSans-Bold")
-
+SITE_URL = "https://phelixestinvil.com/"
+FONT_DIR = Path(reportlab.__file__).resolve().parent / "fonts"
+PAGE_WIDTH, PAGE_HEIGHT = letter
+MARGIN = 43
 INK = colors.HexColor("#172232")
 TEXT = colors.HexColor("#334155")
 COPPER = colors.HexColor("#874528")
 LINE = colors.HexColor("#d7dde4")
-SOFT = colors.HexColor("#f7f8fa")
-PAGE_W, PAGE_H = 612, 792
-LEFT, RIGHT, TOP, BOTTOM = 36, 576, 750, 56
-WIDTH = RIGHT - LEFT
-
-STYLES = {
-    "body": ParagraphStyle("body", fontName="NimbusSans-Regular", fontSize=10.5,
-                           leading=13.7, textColor=TEXT),
-    "bullet": ParagraphStyle("bullet", fontName="NimbusSans-Regular", fontSize=10.5,
-                             leading=13.7, textColor=TEXT),
-    "role": ParagraphStyle("role", fontName="ResumeSans-Bold", fontSize=12,
-                           leading=16, textColor=INK),
-    "meta": ParagraphStyle("meta", fontName="ResumeSans-Bold", fontSize=9.3,
-                           leading=13, textColor=COPPER),
-    "small": ParagraphStyle("small", fontName="ResumeSans", fontSize=9.4,
-                            leading=13.5, textColor=TEXT),
-}
 
 
-def clean(value):
-    value = unescape(value)
-    return value.replace("—", "-").replace("–", "-").replace("‑", "-")
+@dataclass
+class Element:
+    tag: str
+    attrs: dict = field(default_factory=dict)
+    children: list = field(default_factory=list)
+
+    def find_all(self, tag=None, class_name=None, attr=None):
+        matches = []
+        for child in self.children:
+            if isinstance(child, Element):
+                if ((tag is None or child.tag == tag)
+                        and (class_name is None or class_name in child.attrs.get("class", "").split())
+                        and (attr is None or attr in child.attrs)):
+                    matches.append(child)
+                matches.extend(child.find_all(tag, class_name, attr))
+        return matches
+
+    def required(self, **criteria):
+        matches = self.find_all(**criteria)
+        if not matches:
+            raise ValueError(f"Missing resume content: {criteria}")
+        return matches[0]
+
+    def text(self):
+        value = "".join(child.text() if isinstance(child, Element) else child for child in self.children)
+        return re.sub(r"\s+", " ", value).strip()
 
 
-def plain(value):
-    return clean(re.sub(r"<[^>]+>", "", value)).strip()
+class ResumeParser(HTMLParser):
+    VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.root = Element("document")
+        self.stack = [self.root]
+
+    def handle_starttag(self, tag, attrs):
+        node = Element(tag, dict(attrs))
+        self.stack[-1].children.append(node)
+        if tag not in self.VOID:
+            self.stack.append(node)
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in self.VOID:
+            self.handle_endtag(tag)
+
+    def handle_endtag(self, tag):
+        for index in range(len(self.stack) - 1, 0, -1):
+            if self.stack[index].tag == tag:
+                del self.stack[index:]
+                return
+
+    def handle_data(self, data):
+        self.stack[-1].children.append(data)
 
 
-def markup(value):
-    value = re.sub(r"<strong>", "<b>", value)
-    value = re.sub(r"</strong>", "</b>", value)
-    return clean(value)
+def normalized(text):
+    return text.replace("\u2011", "-").replace("\u2013", "-").replace("\u2014", "-")
 
 
-html = (ROOT / "src/resume/index.html").read_text()
-experience_html = re.search(r'<section class="resume-section resume-experience".*?</section>', html, re.S).group()
-roles = []
-for article in re.findall(r"<article.*?</article>", experience_html, re.S):
-    heading = plain(re.search(r"<h3>(.*?)</h3>", article, re.S).group(1))
-    role, employer = heading.split(" - ", 1)
-    meta = plain(re.search(r"<p>(.*?)</p>", article, re.S).group(1))
-    roles.append((role, employer, meta, [markup(x) for x in re.findall(r"<li>(.*?)</li>", article, re.S)]))
-assert [len(role[3]) for role in roles] == [5, 5, 10]
-summary_section = re.search(r'<section class="resume-section" aria-labelledby="resume-summary">(.*?)</section>', html, re.S).group(1)
-summary = plain(re.search(r"<p>(.*?)</p>", summary_section, re.S).group(1))
-
-c = canvas.Canvas(str(OUTPUT), pagesize=(PAGE_W, PAGE_H), pageCompression=1)
-c.setTitle("Phelix Estinvil | Professional Resume")
-c.setAuthor("Phelix Estinvil")
-c.setSubject("Marine diagnostics, remodeling, event technology, and embedded systems")
-c.setCreator("Phelix Estinvil - phelixestinvil.com")
-
-
-def para(text, y, style="body", x=LEFT, width=WIDTH):
-    p = Paragraph(text, STYLES[style])
-    _, height = p.wrap(width, PAGE_H)
-    if y - height < BOTTOM:
-        raise ValueError(f"Page {c.getPageNumber()} overflow at {plain(text)[:70]}: {y-height:.1f}")
-    p.drawOn(c, x, y - height)
-    return y - height
+def inline(node):
+    """Retain emphasis and safe, absolute hyperlinks in ReportLab markup."""
+    if not isinstance(node, Element):
+        return escape(normalized(node))
+    content = "".join(inline(child) for child in node.children)
+    if node.tag in {"strong", "b"}:
+        return f"<b>{content}</b>"
+    if node.tag in {"em", "i"}:
+        return f"<i>{content}</i>"
+    if node.tag == "br":
+        return "<br/>"
+    if node.tag == "a":
+        from urllib.parse import urljoin
+        href = urljoin(SITE_URL + "resume/", node.attrs.get("href", ""))
+        if href.startswith(("https://", "mailto:")):
+            return f'<link href="{escape(href, quote=True)}" color="#874528">{content}</link>'
+    return content
 
 
-def section(title, y):
-    c.setFillColor(INK)
-    c.setFont("ResumeSerif", 17)
-    c.drawString(LEFT, y - 17, title)
-    c.setStrokeColor(LINE)
-    c.setLineWidth(0.5)
-    c.line(LEFT, y - 25, RIGHT, y - 25)
-    c.setStrokeColor(COPPER)
-    c.setLineWidth(1.7)
-    c.line(LEFT, y - 25, LEFT + 30, y - 25)
-    return y - 32
+def register_fonts():
+    for name, filename in (("Resume", "Vera.ttf"), ("Resume-Bold", "VeraBd.ttf"),
+                           ("Resume-Italic", "VeraIt.ttf"), ("Resume-BoldItalic", "VeraBI.ttf")):
+        pdfmetrics.registerFont(TTFont(name, str(FONT_DIR / filename)))
+    pdfmetrics.registerFontFamily("Resume", normal="Resume", bold="Resume-Bold",
+                                  italic="Resume-Italic", boldItalic="Resume-BoldItalic")
 
 
-def role_block(role, y):
-    title, employer, meta, duties = role
-    c.setFillColor(COPPER)
-    c.rect(LEFT, y - 28, 2, 27, stroke=0, fill=1)
-    y = para(escape(title) + " - " + escape(employer), y, "role", x=LEFT+10, width=WIDTH-10)
-    y = para(escape(meta), y - 3, "meta", x=LEFT+10, width=WIDTH-10) - 10
-    for duty in duties:
-        c.setFillColor(COPPER)
-        c.circle(LEFT+3, y - 6.5, 1.5, stroke=0, fill=1)
-        y = para(duty, y, "bullet", x=LEFT+14, width=WIDTH-14) - 4
-    return y
+def make_styles():
+    base = dict(fontName="Resume", textColor=TEXT, alignment=TA_LEFT,
+                fontSize=10, leading=14.1, spaceAfter=5)
+    styles = {"body": ParagraphStyle("body", **base)}
+    styles["name"] = ParagraphStyle("name", parent=styles["body"], fontName="Resume-Bold",
+                                   fontSize=27, leading=32, textColor=INK, spaceAfter=5)
+    styles["title"] = ParagraphStyle("title", parent=styles["body"], fontName="Resume-Bold",
+                                    fontSize=11, leading=15, textColor=COPPER, spaceAfter=7)
+    styles["contact"] = ParagraphStyle("contact", parent=styles["body"], fontSize=9, leading=12)
+    styles["section"] = ParagraphStyle("section", parent=styles["body"], fontName="Resume-Bold",
+                                      fontSize=11, leading=14.5, textColor=INK,
+                                      spaceBefore=13, spaceAfter=8, keepWithNext=True)
+    styles["entry"] = ParagraphStyle("entry", parent=styles["body"], fontName="Resume-Bold",
+                                    fontSize=10.3, leading=14, textColor=INK,
+                                    spaceBefore=5, spaceAfter=3, keepWithNext=True)
+    styles["meta"] = ParagraphStyle("meta", parent=styles["body"], fontSize=8.8,
+                                   leading=11.5, textColor=COPPER, keepWithNext=True, spaceAfter=5)
+    styles["bullet"] = ParagraphStyle("bullet", parent=styles["body"], leftIndent=10,
+                                     firstLineIndent=0, bulletIndent=0,
+                                     bulletFontName="Resume", bulletFontSize=8, spaceAfter=3.7)
+    return styles
 
 
-def footer(page):
-    c.setStrokeColor(LINE)
-    c.setLineWidth(0.5)
-    c.line(LEFT, 38, RIGHT, 38)
-    c.setFillColor(TEXT)
-    c.setFont("ResumeSans", 8)
-    c.drawString(LEFT, 24, "Phelix Estinvil  |  Professional Resume")
-    c.drawRightString(RIGHT, 24, f"{page} / 3")
-    c.linkURL("https://phelixestinvil.com/", (LEFT, 20, LEFT+205, 34), relative=0)
+class NumberedCanvas(canvas.Canvas):
+    """Replay pages once their total is known; retain link annotations."""
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.saved_pages = []
+
+    def showPage(self):
+        self.linkURL(SITE_URL, (MARGIN, 21, MARGIN + 202, 33), relative=0)
+        self.saved_pages.append(dict(self.__dict__))
+        self._startPage()
+
+    def save(self):
+        count = len(self.saved_pages)
+        if count > 2:
+            raise ValueError(f"Resume exceeds two pages ({count}); tighten content or adjust page breaks.")
+        for state in self.saved_pages:
+            self.__dict__.update(state)
+            self.setStrokeColor(LINE)
+            self.setLineWidth(0.5)
+            self.line(MARGIN, 37, PAGE_WIDTH - MARGIN, 37)
+            self.setFillColor(TEXT)
+            self.setFont("Resume", 7.4)
+            self.drawString(MARGIN, 24, "Phelix Estinvil  |  phelixestinvil.com")
+            self.drawRightString(PAGE_WIDTH - MARGIN, 24, f"{self._pageNumber} / {count}")
+            canvas.Canvas.showPage(self)
+        canvas.Canvas.save(self)
 
 
-def continued_header(label):
-    c.setFillColor(INK)
-    c.setFont("ResumeSerif", 18)
-    c.drawString(LEFT, TOP-18, "Phelix Estinvil")
-    c.setFillColor(COPPER)
-    c.setFont("ResumeSans", 8.7)
-    c.drawRightString(RIGHT, TOP-16, label.upper())
-    return TOP - 38
+def section_flowables(section, styles):
+    flowables = []
+    if "data-pdf-page-start" in section.attrs:
+        flowables.append(PageBreak())
+    for child in section.children:
+        if not isinstance(child, Element):
+            continue
+        if child.tag == "h2":
+            flowables.append(Paragraph(inline(child), styles["section"]))
+        elif child.tag == "p":
+            flowables.append(Paragraph(inline(child), styles["body"]))
+        elif child.tag == "article":
+            entry = []
+            for item in child.children:
+                if not isinstance(item, Element):
+                    continue
+                if item.tag == "h3":
+                    entry.append(Paragraph(inline(item), styles["entry"]))
+                elif item.tag == "p":
+                    style = "meta" if "role-meta" in item.attrs.get("class", "").split() else "body"
+                    entry.append(Paragraph(inline(item), styles[style]))
+                elif item.tag in {"ul", "ol"}:
+                    entry.extend(Paragraph(inline(bullet), styles["bullet"], bulletText="-")
+                                 for bullet in item.find_all(tag="li"))
+            flowables.append(KeepTogether(entry))
+            flowables.append(Spacer(1, 4))
+        elif child.tag in {"ul", "ol"}:
+            flowables.extend(Paragraph(inline(bullet), styles["bullet"], bulletText="-")
+                             for bullet in child.find_all(tag="li"))
+    return flowables
 
 
-def portrait():
-    # Match the website's 4:5 crop and 35% vertical object-position.
-    x, y, w, h = RIGHT-88, TOP-110, 88, 110
-    c.setStrokeColor(colors.HexColor("#d9c5b8"))
-    c.setFillColor(colors.white)
-    c.roundRect(x-4, y-4, w+8, h+8, 5, stroke=1, fill=1)
-    c.saveState()
-    path = c.beginPath()
-    path.rect(x, y, w, h)
-    c.clipPath(path, stroke=0)
-    image_h = w * 1536 / 747
-    c.drawImage(str(ROOT / "src/assets/phelix-estinvil.jpg"), x, y-(image_h-h)*0.65,
-                width=w, height=image_h)
-    c.restoreState()
+def build():
+    parser = ResumeParser()
+    parser.feed(SOURCE.read_text(encoding="utf-8"))
+    sidebar = parser.root.required(tag="aside", class_name="resume-sidebar")
+    name = sidebar.required(tag="h2").text()
+    title = sidebar.required(attr="data-resume-title").text()
+    location = sidebar.required(attr="data-resume-location").text()
+    region = sidebar.required(attr="data-resume-region").text()
+    email = next((node for node in sidebar.find_all(tag="a")
+                  if node.attrs.get("href", "").startswith("mailto:")), None)
+    if email is None:
+        raise ValueError("Resume profile must include an email link.")
+    website = sidebar.required(tag="a", attr="data-resume-website")
+    sections = parser.root.find_all(tag="section", class_name="resume-section")
+    if not sections:
+        raise ValueError("No semantic resume sections found.")
+
+    register_fonts()
+    styles = make_styles()
+    story = [
+        Paragraph(escape(name), styles["name"]),
+        Paragraph(escape(title), styles["title"]),
+        Paragraph(escape(location) + "  |  " + inline(email), styles["contact"]),
+        Paragraph(inline(website), styles["contact"]),
+        Paragraph(escape(region), styles["contact"]),
+        Spacer(1, 4),
+        HRFlowable(width="100%", thickness=1.3, color=COPPER, spaceAfter=0),
+    ]
+    for section in sections:
+        story.extend(section_flowables(section, styles))
+
+    def continuation_header(pdf, document):
+        if document.page > 1:
+            pdf.saveState()
+            pdf.setFont("Resume-Bold", 10)
+            pdf.setFillColor(INK)
+            pdf.drawString(MARGIN, PAGE_HEIGHT - 32, name)
+            pdf.setFont("Resume", 8)
+            pdf.setFillColor(COPPER)
+            pdf.drawRightString(PAGE_WIDTH - MARGIN, PAGE_HEIGHT - 32, "TECHNICAL RESUME")
+            pdf.restoreState()
+
+    OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+    document = SimpleDocTemplate(str(OUTPUT), pagesize=letter,
+                                 leftMargin=MARGIN, rightMargin=MARGIN,
+                                 topMargin=43, bottomMargin=48,
+                                 title=f"{name} | Technical Resume", author=name,
+                                 subject="Marine diagnostics, carpentry, independent automotive repair, and embedded systems")
+    document.build(story, onFirstPage=continuation_header,
+                   onLaterPages=continuation_header, canvasmaker=NumberedCanvas)
+    print(f"Built {OUTPUT}")
+    print(f"Source: {SOURCE} ({len(sections)} semantic sections)")
 
 
-# Page 1: profile and technical field experience.
-portrait()
-c.setFillColor(INK)
-c.setFont("ResumeSerif", 29)
-c.drawString(LEFT, TOP-31, "Phelix Estinvil")
-y = para("Multidisciplinary Technician &amp;<br/>Technical Problem-Solver", TOP-43, "role", width=WIDTH-123)
-y = para('Cape Cod, Massachusetts  |  <link href="https://phelixestinvil.com/" color="#874528">phelixestinvil.com</link>', y-8, "small", width=WIDTH-113)
-y = para('<link href="tel:+17742681245" color="#334155">774-268-1245</link>  |  <link href="mailto:estinvilp3@gmail.com" color="#334155">estinvilp3@gmail.com</link>', y-3, "small", width=WIDTH-123)
-y = section("Professional Summary", min(y-16, TOP-130))
-y = para(escape(summary), y) - 12
-y = section("Experience", y)
-y = role_block(roles[0], y) - 8
-y = role_block(roles[1], y)
-print(f"Page 1 content bottom: {y:.1f} pt")
-footer(1)
-c.showPage()
-
-# Page 2: keep all ten current event-production duties together.
-y = section("Experience", continued_header("Live events & technical operations"))
-y = role_block(roles[2], y) - 12
-y = section("Technical Capabilities", y)
-capabilities = [
-    ("Marine & mechanical", "Diesel and gasoline diagnostics; fuel, starting, charging, trim, and vessel-control systems; multimeter testing; preventive maintenance."),
-    ("Electronics & embedded", "ESP32 / ESP32-S3; LVGL; PCB prototyping; sensors and battery monitoring; CAN bus; RS-485 / DMX512; Wi-Fi, BLE, and ESP-NOW."),
-    ("Software & fabrication", "Python; C/C++; Git / GitHub; Linux and Windows; PlatformIO, Arduino, ESP-IDF, and KiCad; technical documentation; 3D printing; carpentry and remodeling."),
-]
-for label, text in capabilities:
-    y = para(f"<b>{label}:</b> {text}", y, "small") - 7
-print(f"Page 2 content bottom: {y:.1f} pt")
-footer(2)
-c.showPage()
-
-# Page 3: latest projects, plus relevant technical work from the original PDF.
-y = section("Selected Technical Projects", continued_header("Projects & education"))
-projects = [
-    ("M5Stack DJ Smart Hub", "Distributed lighting control",
-     "Distributed ESP32-S3 lighting-control system combining live audio analysis, scene logic, low-latency wireless transport, interface controls, and DMX output. Develop LVGL touchscreen interfaces and diagnostic, configuration, firmware-update, and field-service concepts; maintain source code, architecture documentation, and revision history in Git."),
-    ("ESP32 Smart-Light Retrofit", "Embedded hardware & fixture integration",
-     "Rechargeable RGB-fixture retrofit with internal DMX injection, wired fallback, ESP-NOW control, fixture profiles, and safety states. Evaluate control electronics, communications, USB-C power, battery management, and LED-control architectures for distributed fixtures."),
-    ("PhelixSlicer", "Software development & build workflows",
-     "Orca-based slicer fork focused on Flashforge Adventurer 3 Pro support, reproducible Windows builds, and production profile validation."),
-    ("Embedded Electronics & Power-System Development", "Independent technical projects",
-     "Prototype ESP32-based monitoring and control systems using voltage, current, and sensor measurements. Work with ADCs, shunts, battery systems, CAN transceivers, motor drivers, and RS-485 interfaces; troubleshoot hardware/software integration and perform bench diagnostics using multimeters and laboratory power supplies."),
-    ("Computer & Server Systems", "Development infrastructure & troubleshooting",
-     "Configure Windows and Linux systems for development, networking, storage, and remote access. Work with Git workflows, local servers, SSH, and computer hardware; diagnose GPU, network, storage, driver, and operating-system problems."),
-]
-for title, meta, description in projects:
-    y = para(escape(title), y, "role")
-    y = para(escape(meta), y-2, "meta")
-    y = para(escape(description), y-6) - 16
-y = section("Education & Training", y)
-y = para("Cape Cod Regional Technical High School", y, "role")
-y = para("Carpentry Program · Harwich, Massachusetts", y-3, "meta")
-y = para("Vocational training in carpentry, construction practices, tools, measurements, jobsite procedures, and residential building methods.", y-7) - 17
-y = para('<link href="https://phelixestinvil.com/projects/" color="#874528">Project portfolio: phelixestinvil.com/projects/</link><br/><link href="https://djphelix.com/" color="#874528">DJ Phelix: djphelix.com</link>  |  <link href="https://clevercatcompany.com/" color="#874528">Clever Cat Company: clevercatcompany.com</link>', y, "small")
-print(f"Page 3 content bottom: {y:.1f} pt")
-footer(3)
-c.save()
-print(OUTPUT)
+if __name__ == "__main__":
+    build()

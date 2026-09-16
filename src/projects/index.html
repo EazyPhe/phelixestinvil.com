@@ -3,11 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Selected embedded-systems, fabrication, software, and infrastructure projects by Phelix Estinvil.">
+    <meta name="description" content="Explore Phelix Estinvil’s marine diagnostics, independent automotive repair, embedded-systems projects, and design and marketing work on Cape Cod.">
     <meta name="theme-color" content="#172232">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Technical &amp; Creative Projects | Phelix Estinvil">
+    <meta property="og:description" content="Practical experience across mechanical systems, electronics, embedded controls, and business communication.">
+    <meta property="og:url" content="https://phelixestinvil.com/projects/">
+    <meta property="og:image" content="https://phelixestinvil.com/assets/social-preview.png">
+    <meta property="og:image:alt" content="Phelix Estinvil — hands-on technician based on Cape Cod">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://phelixestinvil.com/projects/">
-    <link rel="stylesheet" href="../assets/styles.css?v=20260909-refined2">
-    <title>Selected Projects | Phelix Estinvil</title>
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="stylesheet" href="../assets/styles.css?v=20260917-employer1">
+    <title>Technical &amp; Creative Projects | Phelix Estinvil</title>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -22,7 +30,8 @@
           <a href="../#overview">Overview</a>
           <a href="../#experience">Experience</a>
           <a href="./" aria-current="page">Projects</a>
-          <a href="../#skills">Skills</a>
+          <a href="#design-marketing">Design &amp; Marketing</a>
+          <a href="../resume/">Résumé</a>
           <a href="../#contact">Contact</a>
         </nav>
       </div>
@@ -30,85 +39,174 @@
 
     <main id="main-content">
       <header class="page-intro shell">
-        <h1>Selected Projects</h1>
-        <p>Practical systems built at the intersection of mechanics, electronics, software, fabrication, and live-event operations.</p>
+        <p class="section-kicker">Experience into practice</p>
+        <h1>Technical work.<br>Creative thinking.</h1>
+        <p>From diagnosing mechanical and electrical faults to developing lighting controls and presenting a business online. A closer look at the work behind my experience.</p>
+        <nav class="project-nav" aria-label="Project sections">
+          <a class="text-link" href="#technical-work">Technical Work</a>
+          <a class="text-link" href="#design-marketing">Design &amp; Marketing</a>
+          <a class="text-link" href="#other-projects">Further Projects</a>
+        </nav>
       </header>
 
       <div class="shell">
-        <article class="case-study" id="dj-smart-hub">
-          <div>
-            <h2>M5Stack DJ Smart Hub</h2>
-            <p class="project-status">Active development</p>
+        <section class="portfolio-section" id="technical-work" aria-labelledby="technical-work-title">
+          <div class="section-heading">
+            <p class="section-kicker">01 / Technical Work</p>
+            <h2 class="section-title" id="technical-work-title">Understanding the whole system.</h2>
+            <p class="section-intro">Professional marine service, self-directed automotive repair, and independent electronics development each bring a different kind of technical challenge.</p>
           </div>
-          <div>
-            <h3>Problem</h3>
-            <p>Create a compact, responsive control system that turns live audio analysis into dependable lighting control while keeping performance controls immediate.</p>
-            <h3>Approach</h3>
-            <p>A two-device architecture separates line-in audio analysis, BPM and scene logic from physical DMX output. Low-latency wireless transport keeps both control surfaces synchronized.</p>
-            <p class="tools-line"><strong>Tools:</strong> M5Stack CoreS3, ESP32-S3, ESP-NOW, FFT analysis, LVGL, DMX512</p>
-          </div>
-        </article>
 
-        <article class="case-study" id="smart-light-retrofit">
-          <div>
-            <h2>ESP32 Smart-Light Retrofit</h2>
-            <p class="project-status">Active development</p>
-          </div>
-          <div>
-            <h3>Problem</h3>
-            <p>Extend the control and serviceability of rechargeable RGB uplights without discarding working power and LED hardware.</p>
-            <h3>Approach</h3>
-            <p>An ESP32-S3 retrofit adds internal DMX injection, an external wired fallback, ESP-NOW control, fixture profiles, and distinct normal and emergency blackout states.</p>
-            <p class="tools-line"><strong>Tools:</strong> ESP32-S3, ESP-NOW, DMX512, RS-485, embedded firmware, fixture profiles</p>
-          </div>
-        </article>
+          <article class="case-study" id="marine-diagnostics">
+            <div>
+              <h3 class="case-title">Marine Diagnostics &amp; Repair</h3>
+              <p class="project-status">Professional experience · Northside Marina</p>
+            </div>
+            <div class="case-details">
+              <h4>Work in context</h4>
+              <p>I joined Northside Marina in October 2024, bringing a background in carpentry and repairing my own vehicles. Marine work brought those skills together across engines, electrical circuits, fuel delivery, and vessel-control systems.</p>
+              <h4>Diagnostic approach</h4>
+              <p>My work has included investigating no-start and running faults, interpreting diagnostic trouble codes, tracing starting and charging circuits, and identifying fuel-delivery problems. The task is to connect the symptom to its cause, using service information and test results to guide the repair.</p>
+              <ul class="evidence-list">
+                <li>Mechanical, electrical, and fuel-system fault isolation on gasoline and diesel engines.</li>
+                <li>Multimeter and diagnostic-equipment use for starting, charging, wiring, and component checks.</li>
+                <li>Troubleshooting trim and vessel-control systems, including circuit and component faults.</li>
+              </ul>
+              <p class="tools-line"><strong>Relevant experience:</strong> Marine service, engine diagnostics, electrical troubleshooting, service information, practical repair.</p>
+              <a class="text-link" href="../resume/#resume-experience">View employment experience</a>
+            </div>
+          </article>
 
-        <article class="case-study" id="phelixslicer">
-          <div>
-            <h2>PhelixSlicer</h2>
-            <p class="project-status">Foundation complete</p>
-          </div>
-          <div>
-            <h3>Problem</h3>
-            <p>Improve dependable Flashforge Adventurer 3 Pro support in an Orca-based slicing workflow and remove repeatable Windows build barriers.</p>
-            <h3>Approach</h3>
-            <p>The project establishes printer and loader profiles, portable build tooling, dependency corrections, and production profile validation on a controlled fork.</p>
-            <p class="tools-line"><strong>Tools:</strong> C++, CMake, Git, Windows build tooling, profile validation, 3D-print workflows</p>
-          </div>
-        </article>
+          <article class="case-study" id="dj-smart-hub">
+            <div>
+              <h3 class="case-title">M5Stack DJ Smart Hub</h3>
+              <p class="project-status">Independent project · Active development</p>
+              <figure class="project-figure project-figure--compact">
+                <img src="../assets/projects/m5-field-router-simulator.png" width="320" height="241" alt="M5Stack project Field Router interface showing device, test, command, and router status tiles in a simulated ready state." loading="lazy" decoding="async">
+                <figcaption>Field Router interface in a browser test scenario. Status values are simulated.</figcaption>
+              </figure>
+            </div>
+            <div class="case-details">
+              <h4>The problem</h4>
+              <p>Bring audio-reactive lighting and immediate operator controls into a compact system for live-event use. The project connects my interest in electronics with the practical demands of operating sound and lighting.</p>
+              <h4>How the system is organized</h4>
+              <p>Two M5Stack CoreS3 devices have separate responsibilities. The Brain handles line-in audio and control; the Controller handles its microphone input and physical DMX lighting output. ESP-NOW carries commands and status between them.</p>
+              <ul class="evidence-list">
+                <li><strong>Audio and lighting:</strong> Spectrum analysis, tempo tracking, scene controls, and fixture profiles.</li>
+                <li><strong>Operator interface:</strong> LVGL touch controls, device status, and a browser-based Field Router interface.</li>
+                <li><strong>Testing:</strong> A behavior simulator exercises interface and control scenarios before separate hardware checks.</li>
+              </ul>
+              <h4>Project status</h4>
+              <p>The repository contains firmware, interface code, simulator tests, and technical documentation. Development is ongoing. The screenshot demonstrates the browser interface; it does not establish radio performance or physical lighting-output performance.</p>
+              <p class="tools-line"><strong>Project technologies:</strong> M5Stack CoreS3, ESP32-S3, C++, PlatformIO, LVGL, ESP-NOW, DMX512, TypeScript.</p>
+            </div>
+          </article>
 
-        <article class="case-study" id="server-systems">
-          <div>
-            <h2>Computer &amp; Server Systems</h2>
-            <p class="project-status">Planned deployment</p>
+          <article class="case-study" id="automotive-repair">
+            <div>
+              <h3 class="case-title">Independent Automotive Repair</h3>
+              <p class="project-status">Personal vehicles · Self-directed experience</p>
+            </div>
+            <div class="case-details">
+              <h4>Learning through the work</h4>
+              <p>I have maintained and repaired my own vehicles, using each unfamiliar problem as a reason to learn how the system works. That grew into more involved jobs, including head-gasket and clutch repairs.</p>
+              <h4>Why it matters</h4>
+              <p>Working through those repairs deepened my mechanical understanding and helped me move into professional marine service. It is a practical part of my technical foundation alongside nearly a decade of carpentry experience.</p>
+              <p class="tools-line"><strong>Experience:</strong> Personal vehicle maintenance, engine and drivetrain repair, head gaskets, clutches, independent technical learning.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="portfolio-section" id="design-marketing" aria-labelledby="design-marketing-title">
+          <div class="section-heading">
+            <p class="section-kicker">02 / Design &amp; Marketing</p>
+            <h2 class="section-title" id="design-marketing-title">Making the work easy to understand.</h2>
+            <p class="section-intro">Running a small business also means communicating clearly: explaining the service, presenting it consistently, and helping people take the next step.</p>
           </div>
-          <div>
-            <h3>Problem</h3>
-            <p>Turn existing workstation hardware into a dependable headless environment for storage, development, and compute workloads.</p>
-            <h3>Approach</h3>
-            <p>The deployment plan prioritizes unattended Ubuntu Server operation, SSH-first administration, organized storage, and staged service validation.</p>
-            <p class="tools-line"><strong>Tools:</strong> Ubuntu Server, Linux, SSH, networking, storage planning, GPU compute</p>
+
+          <article class="case-study" id="dj-phelix-website">
+            <div>
+              <h3 class="case-title">DJ Phelix</h3>
+              <p class="project-status">Business website &amp; promotion</p>
+            </div>
+            <div class="case-details">
+              <figure class="project-figure">
+                <a href="https://djphelix.com/" target="_blank" rel="noopener noreferrer" aria-label="Visit the DJ Phelix website (opens in a new tab)">
+                  <img src="../assets/projects/dj-phelix-website.png" width="1440" height="1000" alt="DJ Phelix website homepage with its lion brand mark, event-service introduction, and booking inquiry links." loading="lazy" decoding="async">
+                </a>
+                <figcaption>The public DJ Phelix website, shown as a business communication example.</figcaption>
+              </figure>
+              <h4>The audience</h4>
+              <p>People planning weddings, private events, and nightlife on Cape Cod need to understand the service and have a straightforward way to start a conversation.</p>
+              <h4>My contribution</h4>
+              <p>I supply photo and video evidence of my gigs, offer creative direction, and contribute ideas for the copy. Those inputs help shape how DJ Phelix is presented and connect the promotion to the work I do at events.</p>
+              <h4>Work shown</h4>
+              <p>The site brings together service descriptions, music selections, consistent visual branding, and contact options. It is a working example of presenting a small business online.</p>
+              <p class="tools-line"><strong>My focus:</strong> Gig photos and video, creative direction, copy ideas, service communication.</p>
+              <a class="text-link" href="https://djphelix.com/" target="_blank" rel="noopener noreferrer">Explore DJ Phelix <span class="sr-only">(opens in a new tab)</span></a>
+            </div>
+          </article>
+        </section>
+
+        <section class="portfolio-section" id="other-projects" aria-labelledby="other-projects-title">
+          <div class="section-heading">
+            <p class="section-kicker">03 / Further Projects</p>
+            <h2 class="section-title" id="other-projects-title">Continuing to learn and build.</h2>
+            <p class="section-intro">Additional areas of independent development, with their scope and stage kept explicit.</p>
           </div>
-        </article>
+
+          <article class="case-study" id="smart-light-retrofit">
+            <div>
+              <h3 class="case-title">ESP32 Smart-Light Retrofit</h3>
+              <p class="project-status">Development project</p>
+            </div>
+            <div class="case-details">
+              <p>A retrofit project exploring how to extend rechargeable RGB uplight control while retaining existing power and LED hardware. The design focuses on ESP32 control, DMX integration, wired fallback, fixture profiles, and blackout behavior.</p>
+              <p class="tools-line"><strong>Project focus:</strong> ESP32-S3, ESP-NOW, DMX512, RS-485, embedded firmware, serviceability.</p>
+            </div>
+          </article>
+
+          <article class="case-study" id="phelixslicer">
+            <div>
+              <h3 class="case-title">PhelixSlicer</h3>
+              <p class="project-status">Independent software project</p>
+            </div>
+            <div class="case-details">
+              <p>An Orca-based slicing project focused on Flashforge Adventurer 3 Pro support and repeatable Windows builds. The work covers printer profiles, build tooling, and configuration validation within an existing open-source codebase.</p>
+              <p class="tools-line"><strong>Project focus:</strong> C++, CMake, Git, Windows build tooling, printer profiles, 3D-print workflows.</p>
+            </div>
+          </article>
+
+          <article class="case-study" id="server-systems">
+            <div>
+              <h3 class="case-title">Computer &amp; Server Systems</h3>
+              <p class="project-status">Planned deployment</p>
+            </div>
+            <div class="case-details">
+              <p>A plan to repurpose workstation hardware for storage, development, and compute workloads. The proposed approach uses Ubuntu Server, SSH administration, organized storage, and staged service checks. This is a planning project.</p>
+              <p class="tools-line"><strong>Planned technologies:</strong> Ubuntu Server, Linux, SSH, networking, storage, GPU compute.</p>
+            </div>
+          </article>
+        </section>
       </div>
     </main>
 
     <footer class="contact-band" id="contact">
       <div class="shell contact-inner">
         <div>
-          <h2 class="contact-title">Let’s Connect</h2>
-          <p class="contact-copy">For professional opportunities, technical collaboration, or a closer look at current work.</p>
+          <h2 class="contact-title">Let’s talk about the work.</h2>
+          <p class="contact-copy">Interested in technician opportunities across Cape Cod, the South Shore, and Boston, with design and marketing as a complementary direction.</p>
         </div>
         <div class="contact-links">
-          <a class="button button-primary" href="https://djphelix.com/contact/">Email Phelix</a>
+          <a class="button button-primary" href="mailto:estinvilp3@gmail.com">Email Phelix</a>
+          <a class="button" href="../resume/">Technical Résumé</a>
           <a class="button" href="https://github.com/EazyPhe" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a class="button" href="../resume/">Résumé</a>
           <a class="button" href="../">Overview</a>
         </div>
       </div>
       <div class="shell"><p class="footer-note">© 2026 Phelix Estinvil. Cape Cod, Massachusetts.</p></div>
     </footer>
 
-    <script src="../assets/site.js?v=20260909" defer></script>
+    <script src="../assets/site.js?v=20260917-employer1" defer></script>
   </body>
 </html>

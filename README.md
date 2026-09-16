@@ -4,15 +4,15 @@ Source for Phelix Estinvil's professional résumé and technical portfolio.
 
 ## Current foundation
 
-- One-page professional overview
-- Experience and core-capabilities sections
-- Selected-project index with expandable case-study structure
-- Web résumé page and downloadable three-page PDF with portrait
+- Employer-focused overview for technician roles across Cape Cod, the South Shore, and Boston
+- Career story, professional experience, and technical capabilities
+- Technical portfolio with real project imagery and a secondary design and marketing section
+- Web résumé and matching, selectable-text two-page PDF
 - Responsive navigation and accessible focus states
 - Dependency-free static build
-- Non-deploying GitHub Actions verification
+- GitHub Actions verification and automatic GitHub Pages deployment on `main`
 
-Unverified employment dates and unsupported performance claims are omitted. The PDF includes the professional contact details from the original résumé and the updated experience content from the website.
+Unverified employment dates and unsupported performance claims are omitted. Personal automotive work and independent electronics projects are distinguished from professional experience. Simulator imagery is identified in its caption. Employer contact is `estinvilp3@gmail.com`.
 
 ## Local commands
 
@@ -26,9 +26,11 @@ The production-ready static output is written to `dist/`.
 
 ## Updating the résumé PDF
 
-The PDF is checked in at `src/assets/Phelix-Estinvil-Resume.pdf`, so the static build needs no PDF dependencies. To regenerate it, run `python scripts/build-resume.py` in an environment with ReportLab, DejaVu TrueType fonts, and Nimbus Sans Type 1 fonts installed at the paths declared in the script.
+The PDF is checked in at `src/assets/Phelix-Estinvil-Resume.pdf`, so the static build needs no PDF dependencies. To regenerate it, run `python scripts/build-resume.py` in an environment with ReportLab installed. The generator embeds ReportLab's bundled Vera fonts and works across operating systems.
 
-The generator reads the summary and all 20 experience bullets from `src/resume/index.html` and uses the original portrait. Its contact details, capabilities, and project descriptions are maintained in the script. Render and inspect all pages after changes before committing the PDF.
+Maintain résumé copy in `src/resume/index.html`. The generator reads the profile and semantic résumé sections directly; there are no fixed role or bullet counts. A `data-pdf-page-start` section starts a new PDF page, and the generator fails if the result exceeds two pages. Render and inspect both pages after changes before committing the PDF.
+
+`npm run check` validates local pages, assets, link fragments, duplicate IDs, required metadata, and JavaScript syntax. Before release, also check desktop and mobile navigation, project anchors, the PDF download, and browser console output.
 
 ## Publication status
 
