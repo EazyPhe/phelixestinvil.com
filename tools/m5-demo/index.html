@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Explore Phelix Estinvil’s M5Stack DJ Smart Hub behavior simulator: virtual lighting looks, synthetic audio, and control across a simulated peer link.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="canonical" href="https://phelixestinvil.com/demos/m5stack/">
+  <link rel="icon" href="/assets/favicon.png" type="image/png">
+  <meta name="color-scheme" content="dark">
+  <title>M5Stack DJ Smart Hub · Interactive demo | Phelix Estinvil</title>
+</head>
+<body>
+  <a class="skip-link" href="#controls">Skip to demo controls</a>
+  <div class="shell">
+    <header class="page-header">
+      <a class="back-link" href="../../projects/#dj-smart-hub"><span aria-hidden="true">←</span> Phelix Estinvil / Projects</a>
+      <div class="utility"><button id="motion-toggle" type="button">Pause motion</button><button id="reset" type="button">Reset demo</button></div>
+    </header>
+    <main id="demo" data-ready="false">
+      <div class="intro"><div><h1>M5Stack DJ Smart Hub</h1><p class="lede">Explore how two devices share control of a lighting system.</p></div><p class="simulation-note"><span class="status-dot" aria-hidden="true"></span>Behavior simulation<br><span>Synthetic input · Virtual DMX</span></p></div>
+      <nav class="steps" aria-label="Demo walkthrough">
+        <button type="button" data-step="1" aria-pressed="true"><span>01</span> Shape the light</button>
+        <button type="button" data-step="2" aria-pressed="false"><span>02</span> Add an audio pulse</button>
+        <button type="button" data-step="3" aria-pressed="false"><span>03</span> Test the connection</button>
+      </nav>
+      <div class="workspace">
+        <section class="visual" aria-labelledby="stage-title">
+          <div class="section-heading"><h2 id="stage-title">Virtual stage</h2><span id="output-state">Virtual output active</span></div>
+          <div class="stage" role="img" aria-label="Four virtual RGB lighting fixtures. Colors and brightness follow the Controller’s simulated DMX data.">
+            <div class="truss" aria-hidden="true"></div>
+            <div class="fixtures" aria-hidden="true"></div>
+            <div class="stage-ground" aria-hidden="true"></div>
+            <div class="stage-label"><span id="stage-look">Wash</span><span>4 RGB fixtures · 28 DMX channels</span></div>
+          </div>
+          <div class="devices">
+            <section class="device brain" aria-labelledby="brain-title"><div class="device-heading"><h3 id="brain-title">Brain</h3><span>Control + audio</span></div><div class="device-value"><strong id="brain-master">70%</strong><span>Master level</span></div><div class="device-meta"><span id="brain-look">Wash</span><span>No physical output</span></div></section>
+            <div class="connection"><span class="link-line" aria-hidden="true"></span><strong id="link-state">Linked</strong><span>Simulated peer</span></div>
+            <section class="device controller" aria-labelledby="controller-title"><div class="device-heading"><h3 id="controller-title">Controller</h3><span>Lighting output</span></div><div class="device-value"><strong id="controller-master">70%</strong><span>Master level</span></div><div class="device-meta"><span id="controller-look">Wash</span><span id="controller-mode">Peer control</span></div></section>
+          </div>
+          <div class="audio-readout"><div class="audio-heading"><span>Synthetic spectrum</span><strong id="audio-state">Pulse off</strong></div><div id="spectrum" role="img" aria-label="Sixteen simulated frequency bands; synthetic pulse is off."></div><div class="spectrum-labels"><span>Low frequencies</span><span>High frequencies</span></div></div>
+        </section>
+        <section id="controls" class="controls" aria-labelledby="guide-title" tabindex="-1">
+          <div class="guide"><span id="step-number">01 / 03</span><h2 id="guide-title">Shape the light</h2><p id="guide-copy">Choose a look and adjust the Brain’s master. The simulated link carries those changes to the Controller and its virtual fixtures.</p></div>
+          <div class="control-row"><label for="look">Lighting look</label><select id="look"><option value="0">Wash</option><option value="2">Flow</option><option value="7">Wave</option><option value="10">Vocal Glow</option></select></div>
+          <div class="master-label"><label for="master">Brain master</label><output id="master-value" for="master">70%</output></div>
+          <input id="master" type="range" min="0" max="100" value="70" aria-describedby="master-hint">
+          <p id="master-hint" class="control-hint">Sent to the Controller while linked.</p>
+          <div class="action-row"><div><strong>Synthetic audio</strong><span id="audio-hint">Controller audio: off</span></div><button id="audio-toggle" type="button" aria-pressed="false">Start pulse</button></div>
+          <div class="action-row"><div><strong>Peer connection</strong><span>Brain ↔ Controller</span></div><button id="link-toggle" type="button" aria-pressed="false">Disconnect</button></div>
+          <button id="blackout" class="blackout" type="button" aria-pressed="false">Blackout Controller</button>
+          <p class="control-hint">Local Controller action. Available even when the peer link is disconnected.</p>
+          <p id="feedback" class="feedback" role="status" aria-live="polite">Ready to explore. All output stays in this browser.</p>
+        </section>
+      </div>
+      <p class="scope-note">Uses the project’s TypeScript behavior model with a portfolio interface. This is not the device’s LVGL screen or a hardware test; radio timing, audio capture, and physical DMX output require separate validation.</p>
+      <noscript><p>This interactive demo needs JavaScript. <a href="../../projects/#dj-smart-hub">Return to the project for the video walkthrough.</a></p></noscript>
+    </main>
+  </div>
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

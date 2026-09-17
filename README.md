@@ -82,6 +82,29 @@ Responsive WebP/JPEG derivatives live in `src/assets/projects/marine/` and
 contain no source EXIF or location metadata, and use neutral filenames. The
 phone originals and private review mapping are not part of the published site.
 
+## M5Stack interactive demo and walkthrough
+
+The M5Stack project entry links to `/demos/m5stack/`, a focused browser interface
+using a versioned copy of the project's behavior simulator models. Lighting looks,
+master level, synthetic audio, simulated peer communication, and Controller-local
+blackout are interactive. This is a software behavior demonstration; LVGL rendering,
+radio timing, and physical DMX output require separate verification.
+
+Demo source, provenance, and its optional rebuild instructions live in
+`tools/m5-demo/`. The checked-in static export lives in `src/demos/m5stack/`, so
+the normal website check/build/deployment continues to require no frontend build
+dependencies. The public demo has no live hardware connection or audio-input access.
+
+The Projects page also includes a silent 34-second recording of this same browser demo at
+`src/assets/projects/m5stack/m5-demo-walkthrough.mp4`, its poster, and a text
+description. Playback is user initiated and uses `preload="none"`. Recordings and
+the interactive model must stay labeled as simulations. Keep temporary browser
+captures and QA evidence outside the repository.
+
+Before changing this demo, check keyboard and touch controls, mobile overflow,
+pause/reset, reduced motion, simulated command delivery across a link interruption,
+and Controller blackout. Verify the video plays and does not download on page load.
+
 ## Publication status
 
 Published through GitHub Pages at https://phelixestinvil.com/ with HTTPS. The homepage and online résumé both link to the PDF download.
