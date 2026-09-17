@@ -21,8 +21,18 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Set up Python for the resume PDF
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci
+          python -m pip install reportlab==4.4.9
+
+      - name: Generate the two-page resume from the website
+        run: python scripts/build-resume.py
 
       - name: Check site
         run: npm run check
@@ -30,3 +40,9 @@ jobs:
       - name: Build site
         run: npm run build
 
+      - name: Upload checked site for review
+        uses: actions/upload-artifact@v4
+        with:
+          name: checked-site
+          path: dist
+          retention-days: 7
