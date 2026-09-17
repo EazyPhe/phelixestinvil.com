@@ -43,6 +43,11 @@ review references and must not be linked from the site. The two floating-bed alb
 one project entry; do not infer a shared chronology from their album order.
 
 Website derivatives belong in `src/assets/projects/remodeling/<project>/`.
+The Floating Bed Builds entry also includes the reviewed 1 minute 41 second
+construction video and its poster. This edit is intentionally silent, with
+interview footage and all original audio removed. Its native player preserves
+the original framing, requires the visitor to start playback, and uses
+`preload="none"`; an ordinary MP4 link remains available below the player.
 Keep original downloads, album ZIPs, private source mappings, and review contact
 sheets outside the repository and `src/`. Only reviewed selections belong in the
 site. Use neutral filenames without client names or addresses, apply source
