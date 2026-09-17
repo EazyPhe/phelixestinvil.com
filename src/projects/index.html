@@ -14,7 +14,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="canonical" href="https://phelixestinvil.com/projects/">
     <link rel="icon" type="image/png" href="../assets/favicon.png">
-    <link rel="stylesheet" href="../assets/styles.css?v=20260917-m5-demos">
+    <link rel="stylesheet" href="../assets/styles.css?v=20260917-m5-guided">
     <title>Technical &amp; Creative Projects | Phelix Estinvil</title>
   </head>
   <body>
@@ -184,7 +184,7 @@
             <div>
               <h3 class="case-title" id="m5-project-title">M5Stack DJ Smart Hub</h3>
               <p class="project-status">Independent project · Active development</p>
-              <p>Explore the control logic behind a compact, audio-reactive lighting system.</p>
+              <p>A compact system for turning music and simple controls into stage lighting. Take a guided tour, even if you've never used lighting equipment.</p>
               <div class="button-row m5-demo-actions">
                 <a class="button button-primary" href="../demos/m5stack/">Try the interactive demo <span aria-hidden="true">↗</span></a>
                 <a class="text-link" href="#m5-walkthrough">Watch the walkthrough</a>
@@ -193,8 +193,8 @@
             <div class="case-details">
               <h4>The problem</h4>
               <p>Bring audio-reactive lighting and immediate operator controls into a compact system for live-event use. The project connects my interest in electronics with the practical demands of operating sound and lighting.</p>
-              <h4>How the system is organized</h4>
-              <p>Two M5Stack CoreS3 devices have separate responsibilities. The Brain handles line-in audio and control; the Controller handles its microphone input and physical DMX lighting output. ESP-NOW carries commands and status between them.</p>
+              <h4>How the devices work together</h4>
+              <p>The design uses two small M5Stack CoreS3 touchscreens. The <strong>Brain</strong> handles incoming line-level audio and lighting settings. The <strong>Controller</strong> handles its microphone input and sends commands to the lights. They share settings and status over an ESP-NOW wireless connection. DMX is the protocol used to tell stage lights what to do.</p>
               <ul class="evidence-list">
                 <li><strong>Audio and lighting:</strong> Spectrum analysis, tempo tracking, scene controls, and fixture profiles.</li>
                 <li><strong>Operator interface:</strong> LVGL touch controls, device status, and a browser-based Field Router interface.</li>
@@ -204,27 +204,32 @@
               <p>The repository contains firmware, interface code, simulator tests, and technical documentation. Development is ongoing. The demos below use the project's behavior simulator with synthetic audio and virtual DMX. Radio performance and physical lighting output require separate hardware testing.</p>
               <p class="tools-line"><strong>Project technologies:</strong> M5Stack CoreS3, ESP32-S3, C++, PlatformIO, LVGL, ESP-NOW, DMX512, TypeScript.</p>
             </div>
-            <div class="m5-demo-feature" id="m5-walkthrough">
+            <div class="m5-demo-feature">
               <div class="m5-demo-guide">
                 <p class="section-kicker">Explore the project</p>
-                <h4>Three things to try</h4>
+                <h4>Start here — no experience needed</h4>
                 <ol>
-                  <li><strong>Shape the lighting.</strong> Change a look and adjust the master level to see the virtual fixtures respond.</li>
-                  <li><strong>Add an audio pulse.</strong> Follow synthetic input through the spectrum display and lighting model.</li>
-                  <li><strong>Test the control path.</strong> Interrupt the simulated peer link, reconnect, and try blackout.</li>
+                  <li><strong>Change the brightness.</strong> Watch one setting travel from the Brain to the Controller and the on-screen lights.</li>
+                  <li><strong>Try a pattern and a beat.</strong> See generated audio data change the lighting. The practice beat itself is silent.</li>
+                  <li><strong>Break the connection.</strong> Compare the two devices, then reconnect and send a fresh setting.</li>
+                  <li><strong>Turn the lights off.</strong> Try the Controller's local blackout, then restore the lights.</li>
                 </ol>
-                <p>A focused browser interface built on the project's simulator models. All controls run locally in your browser.</p>
-                <a class="text-link" href="../demos/m5stack/">Open the interactive demo <span aria-hidden="true">→</span></a>
+                <p>The guided demo explains what to try and what to watch for. You can also explore freely or open the plain-language glossary.</p>
+                <a class="text-link" href="../demos/m5stack/">Start the guided demo <span aria-hidden="true">→</span></a>
               </div>
-              <figure class="project-figure project-video m5-demo-video">
-                <video controls playsinline preload="none" width="1440" height="900" poster="../assets/projects/m5stack/m5-demo-walkthrough-poster.jpg" aria-label="M5Stack behavior simulator walkthrough" aria-describedby="m5-video-caption">
-                  <source src="../assets/projects/m5stack/m5-demo-walkthrough.mp4" type="video/mp4">
-                  Your browser does not support video playback. <a href="../assets/projects/m5stack/m5-demo-walkthrough.mp4">Open the M5Stack walkthrough</a>.
+              <figure class="project-figure project-video m5-demo-video" id="m5-walkthrough">
+                <video controls playsinline preload="none" width="1440" height="1080" poster="../assets/projects/m5stack/m5-demo-walkthrough-v2-poster.jpg" aria-label="M5Stack beginner walkthrough with narration and captions" aria-describedby="m5-video-caption">
+                  <source src="../assets/projects/m5stack/m5-demo-walkthrough-v2.mp4" type="video/mp4">
+                  <track kind="captions" src="../assets/projects/m5stack/m5-demo-walkthrough-v2.en.vtt" srclang="en" label="English">
+                  Your browser does not support video playback. <a href="../assets/projects/m5stack/m5-demo-walkthrough-v2.mp4">Open the M5Stack walkthrough</a>.
                 </video>
-                <figcaption id="m5-video-caption">A recorded walkthrough of the same interactive demo: lighting controls, synthetic audio, peer-link behavior, and blackout. Silent screen recording · 34 sec. <a href="../assets/projects/m5stack/m5-demo-walkthrough.mp4">Open video</a>.</figcaption>
+                <figcaption id="m5-video-caption">A beginner's tour of the same browser demo, with spoken explanations and on-screen captions · 1 min 27 sec. AI-generated narration; simulated lighting and audio input. <a href="../assets/projects/m5stack/m5-demo-walkthrough-v2.mp4">Open video</a>.</figcaption>
                 <details class="m5-video-description">
-                  <summary>Read the walkthrough</summary>
-                  <p>The demo opens with two simulated roles: Brain sends controls, and Controller produces virtual DMX. The master changes to 60%, followed by the Flow look, a synthetic audio pulse, and the Wave look. The pulse stops and the Wash look returns. After the peer link is disconnected, the Brain changes to 25% while the Controller keeps 60%. A local Controller blackout darkens the fixtures, then output is restored. Reconnecting and sending a fresh 80% master command synchronizes the roles. Reset returns the demo to its starting state.</p>
+                  <summary>Read the narration and visual description</summary>
+                  <p>This project explores controlling stage lights with two small M5Stack touchscreens. Here, everything happens with virtual lights on screen. The Brain chooses the settings. The Controller receives them and sends commands to the lights. This browser demo simulates their connection.</p>
+                  <p>Move brightness to 60%. Both numbers change together, because the Brain sends the new setting to the Controller. Choose a lighting pattern and start a demo beat. The bars represent low to high sound frequencies. The lights react to generated audio data. The demo beat itself is silent.</p>
+                  <p>Disconnect, then lower the brightness. The Brain changes, but the Controller keeps its previous setting because new commands cannot reach it. Reconnect the devices. Missed changes are not sent again automatically. Move brightness to 80% to send a fresh setting. Both devices agree again.</p>
+                  <p>The Controller also has its own lights-off button, called blackout. Even without a connection, it can turn every virtual light off, then restore them. Try the guided steps yourself, or explore freely. This shows software behavior. Real wireless connections, audio input, and physical lights need separate hardware testing.</p>
                 </details>
               </figure>
             </div>

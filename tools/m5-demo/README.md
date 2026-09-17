@@ -17,3 +17,11 @@ For an existing compatible toolchain, set `M5_DEMO_TOOLCHAIN` to its `node_modul
 `#demo` exposes read-only `data-brain-master`, `data-controller-master`, `data-linked`, `data-blackout`, `data-dmx-zero`, `data-audio`, `data-paused`, `data-sim-time`, and output-role attributes. Controls use stable IDs `master`, `look`, `audio-toggle`, `link-toggle`, `blackout`, `motion-toggle`, and `reset`. All controls use native elements and keyboard behavior. Reduced-motion preferences pause continuous animation by default; controls still settle to static results.
 
 The Content Security Policy prohibits connections and remote scripts. The static output contains only this page, local CSS, and a local JavaScript bundle. Root-site checks and browser interaction verification should accompany each rebuild.
+
+## Guided visitor experience
+
+The default tour has four lessons: brightness, lighting pattern and silent demo beat, interrupted connection, and local lights-off/restore. Each lesson starts from Wash at 70%, with audio off; the last lesson deliberately starts disconnected. Moving Back or selecting a lesson restarts that lesson. Next becomes available only after the relevant result is observed in the model: shared brightness, a received pattern plus peer audio frame, missed then freshly delivered brightness, or zero-output blackout followed by nonzero restoration. Explore freely keeps the current model state and reveals all controls. Reset demo and Restart guide return to lesson 1.
+
+Stable tour controls are `guide-next`, `guide-back`, `explore-toggle`, `restart-guide`, and `button[data-step="1"]` through `button[data-step="4"]`. The demo additionally exposes `data-mode`, `data-step`, `data-step-complete`, and `data-guide-phase`. Connection lesson phases are 0 (ready), 1 (disconnected), 2 (brightness change did not arrive), and 3 (reconnected, waiting for a fresh change). Lights-off lesson phase 1 means the model has produced an all-zero output universe. Completion does not result from merely opening a lesson.
+
+The mobile stage and device readings remain visible while using the controls. The glossary explains hardware names, lighting terms, frequency bars, and the simulation boundary. Keyboard controls, pause, and reduced-motion behavior remain supported.
