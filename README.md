@@ -69,6 +69,19 @@ build for unselected originals or private material. Album links can reveal names
 or other information on Google Photos even when the website copies are clean;
 review those destinations separately before publication.
 
+## Marine and automotive photographs
+
+The marine and independent automotive sections each include three selected
+photographs in `src/projects/index.html`. They reuse the accessible project
+viewer as separate gallery groups. Captions describe visible components and
+disassembly without claiming a particular fault, repair outcome, or shared
+before-and-after sequence.
+
+Responsive WebP/JPEG derivatives live in `src/assets/projects/marine/` and
+`src/assets/projects/automotive/`. They preserve the full framing and orientation,
+contain no source EXIF or location metadata, and use neutral filenames. The
+phone originals and private review mapping are not part of the published site.
+
 ## Publication status
 
 Published through GitHub Pages at https://phelixestinvil.com/ with HTTPS. The homepage and online résumé both link to the PDF download.
