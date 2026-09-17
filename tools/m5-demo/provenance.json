@@ -1,0 +1,56 @@
+{
+  "repository": "M5Stack_DMX_Project",
+  "files": [
+    {
+      "path": "src/vendor/sim/runtime.ts",
+      "source": "tools/simulator/src/sim/runtime.ts",
+      "sha256": "0883aec479118a590de8e5d117515b2892e97bf3b8ac4d873d5e0866b873a184"
+    },
+    {
+      "path": "src/vendor/sim/device.ts",
+      "source": "tools/simulator/src/sim/device.ts",
+      "sha256": "b819208cd18e2b842c01f32eb4c92f9f422d4138e0fb23eea3b8768bdd503419"
+    },
+    {
+      "path": "src/vendor/sim/peer.ts",
+      "source": "tools/simulator/src/sim/peer.ts",
+      "sha256": "52d9299a7a7b8bcfca0bab103b0e9f9a4ed1050611086f4866a30afa9c190103"
+    },
+    {
+      "path": "src/vendor/sim/state.ts",
+      "source": "tools/simulator/src/sim/state.ts",
+      "sha256": "c08cf8e88c0ed1e9483fd2a2ddccff3c3a25d21e2d0551617d2e4087f01ab320"
+    },
+    {
+      "path": "src/vendor/sim/dmx.ts",
+      "source": "tools/simulator/src/sim/dmx.ts",
+      "sha256": "d5e43050e6ec04ff9ee9f42bc66ca97a1fec70acaea257e728c793dbbd6398a8"
+    },
+    {
+      "path": "src/vendor/sim/safety.ts",
+      "source": "tools/simulator/src/sim/safety.ts",
+      "sha256": "9edb98a8c1039ed4e8b1b9e1b6fa1f2944bdbf3e8577b3686dd66d4652056d21"
+    },
+    {
+      "path": "src/vendor/sim/constants.ts",
+      "source": "tools/simulator/src/sim/constants.ts",
+      "sha256": "1abb88d423416da6794d9cd09722ceafd0832cf49e50ed102765529777b468f6"
+    },
+    {
+      "path": "src/vendor/sim/types.ts",
+      "source": "tools/simulator/src/sim/types.ts",
+      "sha256": "bf0ca5f80948bef4b6c0f477a3973ae96c25e62f93eb3d50f59619afed23ca2e"
+    },
+    {
+      "path": "src/vendor/sim/fixtures.ts",
+      "source": "tools/simulator/src/sim/fixtures.ts",
+      "sha256": "68f7b7ec3403752795cd8e3f22013626b7c613f255afba297a0f8b013e6d301e"
+    },
+    {
+      "path": "src/vendor/sim/frequency-map.ts",
+      "source": "tools/simulator/src/sim/frequency-map.ts",
+      "sha256": "1f6d4d514219dd0f105a1f901690df71eb236d2277ad42896fdede817c985553"
+    }
+  ],
+  "snapshot": "76d2d7cb2827d4cbfa931678b851a061f60986a7"
+}

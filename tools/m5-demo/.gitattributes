@@ -1,0 +1,2 @@
+# Preserve the exact vendor bytes recorded by the provenance manifest.
+src/vendor/sim/*.ts -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
