@@ -1,0 +1,72 @@
+WEBVTT
+
+00:00:00.400 --> 00:00:05.663
+This project explores controlling stage lights with two small M5Stack
+touchscreens.
+
+00:00:05.663 --> 00:00:09.490
+Here, everything happens with virtual lights on screen.
+
+00:00:10.900 --> 00:00:12.923
+The Brain chooses the settings.
+
+00:00:12.923 --> 00:00:16.970
+The Controller receives them and sends commands to the lights.
+
+00:00:16.970 --> 00:00:19.398
+This browser demo simulates their connection.
+
+00:00:20.800 --> 00:00:22.659
+Move brightness to sixty percent.
+
+00:00:22.659 --> 00:00:27.865
+Both numbers change together, because the Brain sends the new setting to
+the Controller.
+
+00:00:29.267 --> 00:00:32.764
+Choose a lighting pattern and start a demo beat.
+
+00:00:32.764 --> 00:00:35.874
+The bars represent low to high sound frequencies.
+
+00:00:35.874 --> 00:00:38.594
+The lights react to generated audio data.
+
+00:00:38.594 --> 00:00:40.926
+The demo beat itself is silent.
+
+00:00:42.333 --> 00:00:44.392
+Disconnect, then lower the brightness.
+
+00:00:44.392 --> 00:00:50.979
+The Brain changes, but the Controller keeps its previous setting because
+new commands cannot reach it.
+
+00:00:52.400 --> 00:00:53.728
+Reconnect the devices.
+
+00:00:53.728 --> 00:00:56.826
+Missed changes are not sent again automatically.
+
+00:00:56.826 --> 00:01:01.252
+Move brightness to eighty percent to send a fresh setting.
+
+00:01:01.252 --> 00:01:03.022
+Both devices agree again.
+
+00:01:04.433 --> 00:01:08.180
+The Controller also has its own lights-off button, called blackout.
+
+00:01:08.180 --> 00:01:13.425
+Even without a connection, it can turn every virtual light off, then
+restore them.
+
+00:01:14.833 --> 00:01:18.654
+Try the guided steps yourself, or explore freely.
+
+00:01:18.654 --> 00:01:20.564
+This shows software behavior.
+
+00:01:20.564 --> 00:01:26.295
+Real wireless connections, audio input, and physical lights need
+separate hardware testing.

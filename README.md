@@ -84,10 +84,12 @@ phone originals and private review mapping are not part of the published site.
 
 ## M5Stack interactive demo and walkthrough
 
-The M5Stack project entry links to `/demos/m5stack/`, a focused browser interface
-using a versioned copy of the project's behavior simulator models. Lighting looks,
-master level, synthetic audio, simulated peer communication, and Controller-local
-blackout are interactive. This is a software behavior demonstration; LVGL rendering,
+The M5Stack project entry links to `/demos/m5stack/`, a beginner-friendly browser
+tour using a versioned copy of the project's behavior simulator models. Four lessons
+teach brightness, lighting patterns and a silent demo beat, connection interruption,
+and local lights-off/restore. Each lesson explains what to try and what to watch for,
+then verifies the model result before enabling Next. Free exploration, a glossary,
+and a compact mobile stage are also available. This is a software demonstration; LVGL rendering,
 radio timing, and physical DMX output require separate verification.
 
 Demo source, provenance, and its optional rebuild instructions live in
@@ -95,11 +97,16 @@ Demo source, provenance, and its optional rebuild instructions live in
 the normal website check/build/deployment continues to require no frontend build
 dependencies. The public demo has no live hardware connection or audio-input access.
 
-The Projects page also includes a silent 34-second recording of this same browser demo at
-`src/assets/projects/m5stack/m5-demo-walkthrough.mp4`, its poster, and a text
-description. Playback is user initiated and uses `preload="none"`. Recordings and
-the interactive model must stay labeled as simulations. Keep temporary browser
-captures and QA evidence outside the repository.
+The Projects page includes an explained recording of the same browser demo at
+`src/assets/projects/m5stack/m5-demo-walkthrough-v2.mp4`, its poster, an English
+WebVTT caption track, and a narration/visual transcript. AI-generated narration,
+chapter labels, control highlights, and permanently visible captions explain the
+actions. The caption band sits below the browser recording and does not cover
+controls. Playback is user initiated and uses `preload="none"`. The on-screen
+demo beat is silent generated data; the video's voice is explanatory narration.
+Recordings and the interactive model must stay labeled as simulations. Keep raw
+voice clips, signed generation URLs, browser captures, and QA evidence outside the
+repository. The original silent walkthrough remains available at its existing URL.
 
 Before changing this demo, check keyboard and touch controls, mobile overflow,
 pause/reset, reduced motion, simulated command delivery across a link interruption,
