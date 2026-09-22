@@ -544,14 +544,25 @@
             </div>
           </article>
 
-          <article class="case-study" id="phelixslicer">
+          <article class="case-study" id="phelixslicer" aria-labelledby="grand-master-slice">
             <div>
-              <h3 class="case-title">PhelixSlicer</h3>
-              <p class="project-status">Independent software project</p>
+              <h3 class="case-title" id="grand-master-slice">Grand Master Slice</h3>
+              <p class="project-status">Independent software project | In development</p>
             </div>
             <div class="case-details">
-              <p>An Orca-based slicing project focused on Flashforge Adventurer 3 Pro support and repeatable Windows builds. The work covers printer profiles, build tooling, and configuration validation within an existing open-source codebase.</p>
-              <p class="tools-line"><strong>Project focus:</strong> C++, CMake, Git, Windows build tooling, printer profiles, 3D-print workflows.</p>
+              <p>A 3D printer makes an object by building up thin layers of material. A <strong>slicer</strong> is the software that turns a digital 3D design into the instructions for those layers: where the printer moves, how much plastic it lays down, and how the job is prepared.</p>
+              <p>I am developing Grand Master Slice by adapting existing open-source software for the Flashforge Adventurer 3 Pro. The aim is to help people get better results without having to work out every print setting themselves.</p>
+              <h4>The long-term goal</h4>
+              <p>Instead of relying on one fixed set of settings for an entire object, the goal is to plan around the part’s shape, material, and intended use. A piece that needs to fit another part may need a different approach from a decorative object. Recommendations should explain what would change and why, while leaving the user in control.</p>
+              <h4>Planned improvements</h4>
+              <p><strong>Printing that suits the part:</strong> vary speed, heat, and cooling where appropriate, with the aim of improving quality and reducing failed prints.</p>
+              <p><strong>Smarter use of plastic:</strong> gradually adjust how much material fills the inside of a part, including near its top and bottom surfaces, rather than use the same amount everywhere.</p>
+              <p><strong>Cleaner starts:</strong> investigate ways to clear excess plastic from the nozzle before printing, with an optional cleanup before the second layer where appropriate.</p>
+              <p><strong>Easier filament changes:</strong> guide the user through pausing, replacing the plastic filament for a new color or spool, clearing leftover material, and resuming cleanly.</p>
+              <h4>Work completed and what comes next</h4>
+              <p>The groundwork includes Windows build tools, checks of printer settings, and automated tests that compare the instructions the software produces. Next comes explaining the existing settings and identifying which controls can support useful recommendations. Longer term, the aim is to learn from recorded print results rather than guess which settings work best.</p>
+              <p><strong>Current stage:</strong> The intelligent features above are planned, not finished or proven to improve physical prints. Printer-file compatibility and real-print validation remain ongoing work.</p>
+              <p class="tools-line"><strong>Project focus:</strong> Practical problem-solving, software testing, clearer controls, and less wasted time and material. <strong>Development tools:</strong> C++, Python, CMake, and Git.</p>
             </div>
           </article>
 
